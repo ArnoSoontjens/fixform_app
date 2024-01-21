@@ -1,48 +1,45 @@
 <script setup>
+import ConditionalAuthLayout from "@/Components/ConditionalAuthLayout.vue";
 import ProductCard from "@/Components/ProductCard.vue";
-import { usePage } from "@inertiajs/vue3";
-import { onMounted, ref } from "vue";
+import { Head, usePage } from "@inertiajs/vue3";
+import { ref } from "vue";
+
+defineProps({
+    canLogin: {
+        type: Boolean,
+    },
+});
 
 const products = ref([]);
+const cart = ref(null);
 
-products.value = usePage().props.products;
+const { props } = usePage();
 
-console.log("Products", products);
+products.value = props.products;
+cart.value = props.cart;
 </script>
 
 <template>
-    <div class="container mx-auto mt-8">
-        <h1 class="text-3xl font-semibold mb-4">All Products</h1>
-        <div
-            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-        >
-            <ProductCard
-                v-for="product in products"
-                :key="product.id"
-                :product="product"
-            />
+    <Head title="All products" />
+    <ConditionalAuthLayout :user="props.auth.user" header="All products">
+        <div class="max-w-7xl mx-auto">
+            <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                    >
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                        >
+                            <ProductCard
+                                v-for="product in products"
+                                :key="product.id"
+                                :product="product"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </ConditionalAuthLayout>
 </template>
-
-<script>
-export default {
-    components: {
-        ProductCard,
-    },
-    setup() {
-        const products = ref([]);
-
-        const fetchProducts = async () => {
-            const response = await this.$inertia.get("/products");
-            products.value = response.data;
-        };
-
-        onMounted(fetchProducts);
-
-        return {
-            products,
-        };
-    },
-};
-</script>

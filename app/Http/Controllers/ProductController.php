@@ -12,6 +12,7 @@ class ProductController extends Controller
     public function find()
     {
         $products = Product::all();
+
         return Inertia::render('Products/Overview', [
             'products' => $products,
         ]);
@@ -25,6 +26,8 @@ class ProductController extends Controller
             return response()->json(['error' => 'Product not found'], 404);
         }
 
-        return response()->json($product);
+         return Inertia::render('Products/Detail', [
+            'product' => $product,
+        ]);
     }
 }

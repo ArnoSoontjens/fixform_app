@@ -34,7 +34,7 @@ Route::get('/dashboard', function () {
 
 // Product routes
 Route::get('/products', [ProductController::class, 'find'])->name('products.find');;
-Route::get('/products/{id}', [ProductController::class, 'findOne']);
+Route::get('/products/{id}', [ProductController::class, 'findOne'])->name('products.findOne');
 
 // Protected routes
 Route::middleware('auth')->group(function () {
