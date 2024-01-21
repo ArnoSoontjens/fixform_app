@@ -7,10 +7,20 @@ const user = ref(null);
 const { props } = usePage();
 
 const product = props.product;
+const cart = props.cart;
+
 user.value = props.auth.user;
 
 const addToCart = () => {
     router.post(`/cart/add/${product.id}`);
+};
+
+const removeFromCart = (id) => {
+    router.delete(`/cart/remove/${id}`, {
+        onSuccess: () => {
+            router.visit("/products");
+        },
+    });
 };
 </script>
 
@@ -45,13 +55,28 @@ const addToCart = () => {
                                     €{{ Number(product.price).toFixed(2) }}
                                 </p>
 
-                                <!-- Add to Cart Button -->
-                                <button
-                                    @click="addToCart"
-                                    class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                                <div
+                                    v-if="
+                                        !cart.products
+                                            .map((p) => p.id)
+                                            .includes(product.id)
+                                    "
                                 >
-                                    Add to Cart
-                                </button>
+                                    <button
+                                        @click="addToCart"
+                                        class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+                                    >
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div v-else>
+                                    <button
+                                        @click="removeFromCart(product.id)"
+                                        class="mt-2 bg-red-500 text-white px-4 py-2 rounded-md"
+                                    >
+                                        Remove from Cart
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

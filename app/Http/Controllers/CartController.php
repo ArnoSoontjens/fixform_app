@@ -26,13 +26,15 @@ class CartController extends Controller
         return to_route('products.find');
     }
 
-    public function removeFromCart($productId)
+    public function removeFromCart(Request $request, $productId)
     {
         $cart = $this->getOrCreateCart();
         $cart->products()->detach($productId);
         $cart->load('products');
 
-        return Inertia::render('Cart/Overview', [
+        $uri = $_SERVER['REQUEST_URI'];
+
+       return Inertia::render('Cart/Overview', [
             'cart' => $cart,
         ]);   
     }

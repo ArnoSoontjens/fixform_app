@@ -21,6 +21,8 @@ class ProductController extends Controller
     public function findOne($id)
     {
         $product = Product::find($id);
+        $cart = auth()->user()->cart;
+        $cart->load('products');
 
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
@@ -28,6 +30,7 @@ class ProductController extends Controller
 
          return Inertia::render('Products/Detail', [
             'product' => $product,
+            'cart' => $cart,
         ]);
     }
 }

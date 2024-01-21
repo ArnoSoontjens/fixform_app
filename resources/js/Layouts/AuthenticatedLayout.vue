@@ -45,7 +45,7 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                                 <NavLink
                                     :href="route('cart')"
-                                    :active="route().current('products.find')"
+                                    :active="route().current('cart')"
                                 >
                                     Cart
                                 </NavLink>
