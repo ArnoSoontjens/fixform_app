@@ -1,15 +1,16 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace Database\Seeders;
 
-return new class extends Migration
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class ProductsTableSeeder extends Seeder
 {
     /**
-     * Run the migrations.
+     * Run the database seeds.
      */
-    public function up(): void
+    public function run(): void
     {
         $products = [
             [
@@ -74,16 +75,6 @@ return new class extends Migration
             ],
         ];
 
-        foreach ($products as $product) {
-            DB::table('products')->insert($product);
-        }
+        DB::table('products')->insert($products);
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        //
-    }
-};
+}
