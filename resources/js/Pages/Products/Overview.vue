@@ -2,21 +2,8 @@
 import ConditionalAuthLayout from "@/Components/ConditionalAuthLayout.vue";
 import ProductCard from "@/Components/ProductCard.vue";
 import { Head, usePage } from "@inertiajs/vue3";
-import { ref } from "vue";
-
-defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-});
-
-const products = ref([]);
-const cart = ref(null);
 
 const { props } = usePage();
-
-products.value = props.products;
-cart.value = props.cart;
 </script>
 
 <template>
@@ -32,7 +19,7 @@ cart.value = props.cart;
                             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                         >
                             <ProductCard
-                                v-for="product in products"
+                                v-for="product in props.products"
                                 :key="product.id"
                                 :product="product"
                             />

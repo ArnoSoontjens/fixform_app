@@ -17,7 +17,9 @@ class CartController extends Controller
         $cart = $user->cart;
         $cart->load('products');
 
-        return response()->json($cart);
+        return Inertia::render('Cart/Overview', [
+            'cart' => $cart,
+        ]);
     }
 
     public function addToCart(Request $request, $productId)
