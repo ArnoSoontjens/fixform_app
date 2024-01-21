@@ -24,6 +24,9 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
             $table->timestamps();
         });
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('cart_id')->nullable()->constrained();
+        });
     }
 
     /**
