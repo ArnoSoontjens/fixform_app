@@ -33,10 +33,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Product routes
-Route::get('/products', [ProductController::class, 'find']);
+Route::get('/products', [ProductController::class, 'find'])->name('products.find');;
 Route::get('/products/{id}', [ProductController::class, 'findOne']);
-
-
 
 // Protected routes
 Route::middleware('auth')->group(function () {

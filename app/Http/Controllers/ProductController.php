@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
     public function find()
     {
         $products = Product::all();
-
-        return response()->json($products);
+        return Inertia::render('Products/Overview', [
+            'products' => $products,
+        ]);
     }
 
     public function findOne($id)
