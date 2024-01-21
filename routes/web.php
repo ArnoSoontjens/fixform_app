@@ -32,10 +32,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Product routes
-Route::get('/products', [ProductController::class, 'find'])->name('products.find');;
-Route::get('/products/{id}', [ProductController::class, 'findOne'])->name('products.findOne');
-
 // Protected routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -44,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'find'])->name('cart');
     Route::post('/cart/add/{productId}', [CartController::class, 'addToCart']);
     Route::delete('/cart/remove/{productId}', [CartController::class, 'removeFromCart']);
+    Route::get('/products', [ProductController::class, 'find'])->name('products.find');;
+Route::get('/products/{id}', [ProductController::class, 'findOne'])->name('products.findOne');
 });
 
 
