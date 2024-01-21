@@ -10,11 +10,7 @@ class CartController extends Controller
 {
     public function find()
     {
-        $user = auth()->user();
-
-        $user->cart()->firstOrCreate();
-
-        $cart = $user->cart;
+        $cart = $this->getOrCreateCart();
         $cart->load('products');
 
         return Inertia::render('Cart/Overview', [
@@ -24,13 +20,27 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $productId)
     {
-        $user = auth()->user();
-
-        $user->cart()->firstOrCreate();
-        $cart = $user->cart;
-
-        $cart->products()->attach($productId, ['quantity' => $request->input('quantity', 1)]);
+        $cart = $this->getOrCreateCart();
+        $cart->products()->attach($productId);
 
         return to_route('products.find');
+    }
+
+    public function removeFromCart($productId)
+    {
+        $cart = $this->getOrCreateCart();
+        $cart->products()->detach($productId);
+        $cart->load('products');
+
+        return Inertia::render('Cart/Overview', [
+            'cart' => $cart,
+        ]);   
+    }
+
+    private function getOrCreateCart() {
+        $user = auth()->user();
+        $user->cart()->firstOrCreate();
+        $cart = $user->cart;
+        return $cart;
     }
 }
